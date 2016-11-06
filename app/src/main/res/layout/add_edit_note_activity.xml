@@ -10,8 +10,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="mx.segundamano.gianpa.notes.AddEditNoteActivity">
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:id="@+id/title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_edit_note_activity_title_hint"
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/title_layout">
+
+        <EditText
+            android:id="@+id/body_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|left"
+            android:hint="@string/add_edit_note_activity_body"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </android.support.design.widget.TextInputLayout>
+
 </RelativeLayout>
