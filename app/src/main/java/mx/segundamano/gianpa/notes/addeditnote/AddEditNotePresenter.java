@@ -2,7 +2,7 @@ package mx.segundamano.gianpa.notes.addeditnote;
 
 import mx.segundamano.gianpa.notes.Note;
 
-public class AddEditNotePresenter {
+public class AddEditNotePresenter implements AddEditNoteModelCallback {
     private AddEditNoteView view;
     private AddEditNoteModel model;
 
@@ -12,16 +12,16 @@ public class AddEditNotePresenter {
     }
 
     public void save(Note note) {
-        model.save(note, new AddEditNoteModelCallback() {
-            @Override
-            public void onSuccess(Note note) {
-                view.onNoteSaved(note);
-            }
+        model.save(note, this);
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                view.onFailure(e);
-            }
-        });
+    @Override
+    public void onSuccess(Note note) {
+        view.onNoteSaved(note);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        view.onFailure(e);
     }
 }
