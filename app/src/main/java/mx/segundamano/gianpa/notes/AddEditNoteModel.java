@@ -2,6 +2,7 @@ package mx.segundamano.gianpa.notes;
 
 import android.net.Uri;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AddEditNoteModel {
 
     private final NotesService service;
+    private Realm realm;
 
     public AddEditNoteModel() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -19,6 +21,8 @@ public class AddEditNoteModel {
                 .build();
 
         service = retrofit.create(NotesService.class);
+
+        realm = Realm.getDefaultInstance();
     }
 
     public void save(final Note note, final AddEditNoteModelCallback callback) {
@@ -29,7 +33,7 @@ public class AddEditNoteModel {
         Call<MyJsonResponse> call = service.create(noteApiModel);
         call.enqueue(new Callback<MyJsonResponse>() {
             @Override
-            public void onResponse(Call<MyJsonResponse> call, Response<MyJsonResponse> response) {
+            public void onResponse(final Call<MyJsonResponse> call, Response<MyJsonResponse> response) {
                 if (response.code() != 201) {
                     callback.onError(new Exception(response.message()));
                     return;
@@ -38,7 +42,25 @@ public class AddEditNoteModel {
                 Uri uri = Uri.parse(response.body().uri);
                 note.id = uri.getLastPathSegment();
 
-                callback.onSuccess(note);
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        NoteRealmModel noteRealmModel = realm.createObject(NoteRealmModel.class);
+                        noteRealmModel.id = note.id;
+                        noteRealmModel.title = note.title;
+                        noteRealmModel.body = note.body;
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        callback.onSuccess(note);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        callback.onError(error);
+                    }
+                });
             }
 
             @Override
