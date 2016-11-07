@@ -1,7 +1,5 @@
 package mx.segundamano.gianpa.notes;
 
-import android.net.Uri;
-
 import io.realm.Realm;
 import io.realm.RealmModel;
 import mx.segundamano.gianpa.notes.addeditnote.MyJsonResponse;
@@ -27,14 +25,7 @@ public class NotesRepository implements NotesGateway {
         call.enqueue(new Callback<MyJsonResponse>() {
             @Override
             public void onResponse(final Call<MyJsonResponse> call, Response<MyJsonResponse> response) {
-                if (!response.isSuccessful()) {
-                    callback.onError(new Exception(response.message()));
-                    return;
-                }
-
-                Uri uri = Uri.parse(response.body().uri);
-
-                persist(uri.getLastPathSegment(), title, body, callback);
+                onCreateRetrofitResponse(response, callback, title, body);
             }
 
             @Override
@@ -42,6 +33,15 @@ public class NotesRepository implements NotesGateway {
                 callback.onError(t);
             }
         });
+    }
+
+    void onCreateRetrofitResponse(Response<MyJsonResponse> response, GatewayCallback<Note> callback, String title, String body) {
+        if (!response.isSuccessful()) {
+            callback.onError(new Exception(response.message()));
+            return;
+        }
+
+        persist(response.body().uri.substring(response.body().uri.lastIndexOf('/') + 1), title, body, callback);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class NotesRepository implements NotesGateway {
         });
     }
 
-    private void persist(final String id, final String title, final String body, final GatewayCallback<Note> callback) {
+    void persist(final String id, final String title, final String body, final GatewayCallback<Note> callback) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
