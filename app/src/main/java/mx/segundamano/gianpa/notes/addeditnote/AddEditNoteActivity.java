@@ -53,7 +53,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
 
     @Override
     public void onNoteSaved(Note note) {
-        Snackbar.make(findViewById(android.R.id.content), note.id, Snackbar.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
