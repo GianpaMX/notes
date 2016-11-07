@@ -14,8 +14,8 @@ public class ListNotesModel {
     private ListNotesModelChangeListener listener;
     private RealmResults<NoteRealmModel> realmResults;
 
-    public ListNotesModel() {
-        realm = Realm.getDefaultInstance();
+    public ListNotesModel(Realm realm) {
+        this.realm = realm;
     }
 
     public void setListener(ListNotesModelChangeListener listener) {

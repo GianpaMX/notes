@@ -10,9 +10,9 @@ public class ListNotesPresenter implements ListNotesModelChangeListener {
     private ListNotesView view;
     private ListNotesModel model;
 
-    public ListNotesPresenter(ListNotesView view) {
+    public ListNotesPresenter(ListNotesView view, ListNotesModel model) {
         this.view = view;
-        this.model = new ListNotesModel();
+        this.model = model;
     }
 
     public void start() {

@@ -12,15 +12,23 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.realm.Realm;
 import mx.segundamano.gianpa.notes.NoteViewModel;
+import mx.segundamano.gianpa.notes.NotesApplication;
 import mx.segundamano.gianpa.notes.R;
 import mx.segundamano.gianpa.notes.addeditnote.AddEditNoteActivity;
+import mx.segundamano.gianpa.notes.listnotes.di.ListNotesActivityModule;
 
 public class ListNotesActivity extends AppCompatActivity implements ListNotesView {
 
     private RecyclerView notesRecyclerView;
-    private ListNotesPresenter presenter;
     private ListNotesAdapter adapter;
+
+    @Inject
+    public ListNotesPresenter presenter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +42,13 @@ public class ListNotesActivity extends AppCompatActivity implements ListNotesVie
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesRecyclerView.setAdapter(adapter);
 
-        presenter = new ListNotesPresenter(this);
+        inject(this);
+    }
+
+    private void inject(ListNotesActivity listNotesActivity) {
+        ((NotesApplication) getApplication()).getApplicationComponent()
+                .getListNotesActivityComponent(new ListNotesActivityModule(listNotesActivity))
+                .inject(listNotesActivity);
     }
 
     @Override
@@ -46,7 +60,7 @@ public class ListNotesActivity extends AppCompatActivity implements ListNotesVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.add_action) {
+        if (item.getItemId() == R.id.add_action) {
             Intent addEditNoteActivity = new Intent(this, AddEditNoteActivity.class);
             startActivity(addEditNoteActivity);
         }

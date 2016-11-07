@@ -11,6 +11,7 @@ import mx.segundamano.gianpa.notes.NotesGateway;
 import mx.segundamano.gianpa.notes.NotesRepository;
 import mx.segundamano.gianpa.notes.NotesService;
 import mx.segundamano.gianpa.notes.addeditnote.AddEditNoteModel;
+import mx.segundamano.gianpa.notes.listnotes.ListNotesModel;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -57,5 +58,11 @@ public class ApplicationModule {
     @Provides
     public AddEditNoteModel provideAddEditNoteModel(NotesGateway gateway) {
         return new AddEditNoteModel(gateway);
+    }
+
+    @Singleton
+    @Provides
+    public ListNotesModel provideListNotesModel(Realm realm) {
+        return new ListNotesModel(realm);
     }
 }
