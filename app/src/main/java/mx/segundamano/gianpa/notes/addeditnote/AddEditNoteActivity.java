@@ -10,12 +10,10 @@ import android.widget.EditText;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
 import mx.segundamano.gianpa.notes.Note;
 import mx.segundamano.gianpa.notes.NoteViewModel;
 import mx.segundamano.gianpa.notes.NotesApplication;
 import mx.segundamano.gianpa.notes.NotesRepository;
-import mx.segundamano.gianpa.notes.NotesService;
 import mx.segundamano.gianpa.notes.R;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
@@ -28,10 +26,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     private NoteViewModel noteViewModel;
 
     @Inject
-    public NotesService service;
-
-    @Inject
-    public Realm realm;
+    public NotesRepository gateway;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +37,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
         bodyEditText = (EditText) findViewById(R.id.body_edit_text);
 
         inject(this);
-
-        NotesRepository gateway = new NotesRepository(service, realm);
+        
         AddEditNoteModel model = new AddEditNoteModel(gateway);
 
         presenter = new AddEditNotePresenter(this, model);

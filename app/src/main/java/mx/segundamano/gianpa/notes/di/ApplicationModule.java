@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
+import mx.segundamano.gianpa.notes.NotesRepository;
 import mx.segundamano.gianpa.notes.NotesService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -42,5 +43,11 @@ public class ApplicationModule {
         Realm.init(context);
 
         return Realm.getDefaultInstance();
+    }
+
+    @Singleton
+    @Provides
+    public NotesRepository provideNotesRepository(NotesService service, Realm realm) {
+        return new NotesRepository(service, realm);
     }
 }
