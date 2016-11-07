@@ -9,23 +9,14 @@ import mx.segundamano.gianpa.notes.addeditnote.NoteApiModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotesRepository implements NotesGateway {
     private final NotesService service;
     private Realm realm;
 
-    public NotesRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.myjson.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(NotesService.class);
-
-        realm = Realm.getDefaultInstance();
-
+    public NotesRepository(NotesService service, Realm realm) {
+        this.service = service;
+        this.realm = realm;
     }
 
     @Override
