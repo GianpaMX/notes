@@ -8,14 +8,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import javax.inject.Inject;
+
 import io.realm.Realm;
 import mx.segundamano.gianpa.notes.Note;
 import mx.segundamano.gianpa.notes.NoteViewModel;
+import mx.segundamano.gianpa.notes.NotesApplication;
 import mx.segundamano.gianpa.notes.NotesRepository;
 import mx.segundamano.gianpa.notes.NotesService;
 import mx.segundamano.gianpa.notes.R;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
     public static final String NOTE_VIEW_MODEL = "NOTE_VIEW_MODEL";
@@ -26,6 +28,9 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     private AddEditNotePresenter presenter;
     private NoteViewModel noteViewModel;
 
+    @Inject
+    public Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +39,8 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
         titleEditText = (EditText) findViewById(R.id.title_edit_text);
         bodyEditText = (EditText) findViewById(R.id.body_edit_text);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.myjson.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        inject(this);
+
         NotesService service = retrofit.create(NotesService.class);
         Realm realm = Realm.getDefaultInstance();
         NotesRepository gateway = new NotesRepository(service, realm);
@@ -55,6 +58,10 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
 
         titleEditText.setText(noteViewModel.title);
         bodyEditText.setText(noteViewModel.body);
+    }
+
+    private void inject(AddEditNoteActivity addEditNoteActivity) {
+        ((NotesApplication) getApplication()).getApplicationComponent().inject(addEditNoteActivity);
     }
 
     @Override
