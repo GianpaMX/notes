@@ -17,7 +17,6 @@ import mx.segundamano.gianpa.notes.NotesApplication;
 import mx.segundamano.gianpa.notes.NotesRepository;
 import mx.segundamano.gianpa.notes.NotesService;
 import mx.segundamano.gianpa.notes.R;
-import retrofit2.Retrofit;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
     public static final String NOTE_VIEW_MODEL = "NOTE_VIEW_MODEL";
@@ -31,6 +30,9 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     @Inject
     public NotesService service;
 
+    @Inject
+    public Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,6 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
 
         inject(this);
 
-        Realm realm = Realm.getDefaultInstance();
         NotesRepository gateway = new NotesRepository(service, realm);
         AddEditNoteModel model = new AddEditNoteModel(gateway);
 
