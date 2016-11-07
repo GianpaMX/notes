@@ -1,4 +1,4 @@
-package mx.segundamano.gianpa.notes;
+package mx.segundamano.gianpa.notes.addeditnote;
 
 public class NoteApiModel {
     public String title;

@@ -1,4 +1,6 @@
-package mx.segundamano.gianpa.notes;
+package mx.segundamano.gianpa.notes.addeditnote;
+
+import mx.segundamano.gianpa.notes.Note;
 
 public interface AddEditNoteModelCallback {
     void onSuccess(Note note);

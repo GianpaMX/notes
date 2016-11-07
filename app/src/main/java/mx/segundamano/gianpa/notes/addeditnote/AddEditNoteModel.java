@@ -1,8 +1,11 @@
-package mx.segundamano.gianpa.notes;
+package mx.segundamano.gianpa.notes.addeditnote;
 
 import android.net.Uri;
 
 import io.realm.Realm;
+import mx.segundamano.gianpa.notes.Note;
+import mx.segundamano.gianpa.notes.NoteRealmModel;
+import mx.segundamano.gianpa.notes.NotesService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

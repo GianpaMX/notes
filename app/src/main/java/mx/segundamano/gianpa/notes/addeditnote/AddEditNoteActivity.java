@@ -1,4 +1,4 @@
-package mx.segundamano.gianpa.notes;
+package mx.segundamano.gianpa.notes.addeditnote;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import mx.segundamano.gianpa.notes.Note;
+import mx.segundamano.gianpa.notes.NoteViewModel;
+import mx.segundamano.gianpa.notes.R;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
 
