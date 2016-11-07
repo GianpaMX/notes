@@ -13,8 +13,10 @@ import javax.inject.Inject;
 import mx.segundamano.gianpa.notes.Note;
 import mx.segundamano.gianpa.notes.NoteViewModel;
 import mx.segundamano.gianpa.notes.NotesApplication;
-import mx.segundamano.gianpa.notes.NotesRepository;
 import mx.segundamano.gianpa.notes.R;
+import mx.segundamano.gianpa.notes.addeditnote.di.AddEditNoteActivityComponent;
+import mx.segundamano.gianpa.notes.addeditnote.di.AddEditNoteActivityModule;
+import mx.segundamano.gianpa.notes.di.ApplicationComponent;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
     public static final String NOTE_VIEW_MODEL = "NOTE_VIEW_MODEL";
@@ -22,11 +24,10 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     private EditText titleEditText;
     private EditText bodyEditText;
 
-    private AddEditNotePresenter presenter;
     private NoteViewModel noteViewModel;
 
     @Inject
-    public NotesRepository gateway;
+    public AddEditNotePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,6 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
         bodyEditText = (EditText) findViewById(R.id.body_edit_text);
 
         inject(this);
-        
-        AddEditNoteModel model = new AddEditNoteModel(gateway);
-
-        presenter = new AddEditNotePresenter(this, model);
 
         if (savedInstanceState != null) {
             noteViewModel = savedInstanceState.getParcelable(NOTE_VIEW_MODEL);
@@ -55,7 +52,9 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     }
 
     private void inject(AddEditNoteActivity addEditNoteActivity) {
-        ((NotesApplication) getApplication()).getApplicationComponent().inject(addEditNoteActivity);
+        ((NotesApplication) getApplication()).getApplicationComponent()
+                .getAddEditNoteActivityComponent(new AddEditNoteActivityModule(addEditNoteActivity))
+                .inject(addEditNoteActivity);
     }
 
     @Override
