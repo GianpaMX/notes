@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/save_action"
-        android:title="Save"
+        android:title="@string/add_edit_note_activity_save_action"
         app:showAsAction="ifRoom" />
 </menu>

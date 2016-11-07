@@ -3,4 +3,5 @@
     <string name="add_edit_note_activity_title_hint">Title</string>
     <string name="add_edit_note_activity_body">Note</string>
     <string name="list_notes_activity_add_action">Add</string>
+    <string name="add_edit_note_activity_save_action">Save</string>
 </resources>

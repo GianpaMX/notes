@@ -27,7 +27,7 @@ public class ListNotesActivity extends AppCompatActivity implements ListNotesVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_notes_activity);
 
-        adapter = new ListNotesAdapter();
+        adapter = new ListNotesAdapter(this);
 
         notesRecyclerView = (RecyclerView) findViewById(R.id.notes_recycler_view);
         notesRecyclerView.setHasFixedSize(true);

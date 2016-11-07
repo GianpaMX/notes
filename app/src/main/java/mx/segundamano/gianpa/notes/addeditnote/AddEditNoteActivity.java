@@ -1,8 +1,8 @@
 package mx.segundamano.gianpa.notes.addeditnote;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,11 +13,13 @@ import mx.segundamano.gianpa.notes.NoteViewModel;
 import mx.segundamano.gianpa.notes.R;
 
 public class AddEditNoteActivity extends AppCompatActivity implements AddEditNoteView {
+    public static final String NOTE_VIEW_MODEL = "NOTE_VIEW_MODEL";
 
     private EditText titleEditText;
     private EditText bodyEditText;
 
     private AddEditNotePresenter presenter;
+    private NoteViewModel noteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,23 +30,43 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
         bodyEditText = (EditText) findViewById(R.id.body_edit_text);
 
         presenter = new AddEditNotePresenter(this);
+
+        if (savedInstanceState != null) {
+            noteViewModel = savedInstanceState.getParcelable(NOTE_VIEW_MODEL);
+        } else if (getIntent().getExtras() != null) {
+            noteViewModel = getIntent().getExtras().getParcelable(NOTE_VIEW_MODEL);
+        } else {
+            noteViewModel = new NoteViewModel();
+        }
+
+        titleEditText.setText(noteViewModel.title);
+        bodyEditText.setText(noteViewModel.body);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        noteViewModel.title = titleEditText.getText().toString();
+        noteViewModel.body = bodyEditText.getText().toString();
+
+        outState.putParcelable(NOTE_VIEW_MODEL, noteViewModel);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_edit_note_activity, menu);
+        menuInflater.inflate(R.menu.add_edit_note_activity_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.save_action) {
-            NoteViewModel note = new NoteViewModel();
-            note.title = titleEditText.getText();
-            note.body = bodyEditText.getText();
+            noteViewModel.title = titleEditText.getText().toString();
+            noteViewModel.body = bodyEditText.getText().toString();
 
-            presenter.save(note.toModel());
+            presenter.save(noteViewModel.toModel());
 
             return true;
         }
