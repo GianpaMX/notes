@@ -1,7 +1,6 @@
 package mx.segundamano.gianpa.notes.addeditnote;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import mx.segundamano.gianpa.notes.GatewayCallback;
 import mx.segundamano.gianpa.notes.Note;
