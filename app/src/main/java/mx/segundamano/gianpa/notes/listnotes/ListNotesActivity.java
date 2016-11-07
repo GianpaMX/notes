@@ -24,10 +24,12 @@ import mx.segundamano.gianpa.notes.listnotes.di.ListNotesActivityModule;
 public class ListNotesActivity extends AppCompatActivity implements ListNotesView {
 
     private RecyclerView notesRecyclerView;
-    private ListNotesAdapter adapter;
 
     @Inject
     public ListNotesPresenter presenter;
+
+    @Inject
+    public ListNotesAdapter adapter;
 
 
     @Override
@@ -35,14 +37,12 @@ public class ListNotesActivity extends AppCompatActivity implements ListNotesVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_notes_activity);
 
-        adapter = new ListNotesAdapter(this);
+        inject(this);
 
         notesRecyclerView = (RecyclerView) findViewById(R.id.notes_recycler_view);
         notesRecyclerView.setHasFixedSize(true);
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesRecyclerView.setAdapter(adapter);
-
-        inject(this);
     }
 
     private void inject(ListNotesActivity listNotesActivity) {
