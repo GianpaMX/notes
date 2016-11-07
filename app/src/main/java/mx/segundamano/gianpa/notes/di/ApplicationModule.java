@@ -4,6 +4,7 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
+import mx.segundamano.gianpa.notes.NotesService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,5 +24,10 @@ public class ApplicationModule {
                 .build();
 
         return retrofit;
+    }
+
+    @Provides
+    public NotesService provideNotesService(Retrofit retrofit) {
+        return retrofit.create(NotesService.class);
     }
 }

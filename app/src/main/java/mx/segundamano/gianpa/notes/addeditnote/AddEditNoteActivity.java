@@ -29,7 +29,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
     private NoteViewModel noteViewModel;
 
     @Inject
-    public Retrofit retrofit;
+    public NotesService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class AddEditNoteActivity extends AppCompatActivity implements AddEditNot
 
         inject(this);
 
-        NotesService service = retrofit.create(NotesService.class);
         Realm realm = Realm.getDefaultInstance();
         NotesRepository gateway = new NotesRepository(service, realm);
         AddEditNoteModel model = new AddEditNoteModel(gateway);
